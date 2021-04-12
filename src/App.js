@@ -14,6 +14,19 @@ class App extends Component {
     ],
     filter: '',
   };
+  
+  componentDidMount() {
+    const localHistiry = localStorage.getItem('contacts');
+    if (localHistiry !== null) {
+      this.setState({ contacts: JSON.parse(localHistiry) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
   addContact = newContact => {
     const { contacts } = this.state;
     const contactItem = {
@@ -51,18 +64,6 @@ class App extends Component {
     this.setState({ filter: e.currentTarget.value });
   };
 
-  componentDidMount() {
-    const localHistiry = localStorage.getItem('contacts');
-    if (localHistiry !== null) {
-      this.setState({ contacts: JSON.parse(localHistiry) });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
 
   render() {
     return (
